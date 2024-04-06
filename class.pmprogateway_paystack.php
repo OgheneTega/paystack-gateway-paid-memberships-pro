@@ -308,6 +308,7 @@ if (!function_exists('Paystack_Pmp_Gateway_load')) {
                                 $pstk_logger = new pmpro_paystack_plugin_tracker('pm-pro', $pk);
                                 $pstk_logger->log_transaction_success($event->data->reference);
                                 if ($txnstatus['member'] === 'success') {
+                                    echo 'transaction successful';
                                     http_response_code(200);
                                     exit();
                                 }
@@ -316,7 +317,12 @@ if (!function_exists('Paystack_Pmp_Gateway_load')) {
                                 self::renewpayment($event);
                             case 'invoice.update':
                                 self::renewpayment($event);
+                            default:
+                                echo 'Event not recognized';
+                                http_response_code(400);
+                                exit();    
                         }
+                        echo 'kill switch';
                         http_response_code(200);
                         exit();
                     }
